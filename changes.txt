@@ -1,0 +1,6 @@
+this fixes the redirects...
+bin/werc.rc:38 # force server port to 80
+or just don't set base_url with the port.
+
+/home/reed/www/apps/paste/app.rc:24
+$QUERY_STRING is empty not 'raw'.
