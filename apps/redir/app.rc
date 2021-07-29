@@ -1,11 +1,12 @@
 fn conf_enable_redir {
 	redir_url=$conf_wd
-	conf_enable_app redir
 	sharepoint_url=https://shubinanddonaldson.sharepoint.com/:f:/r/sites/ShubinDonaldson/Shared%20Documents/Representation/Archive/
+	conf_enable_app redir
 }
 
 fn redir_init {
 	redir_name=`{echo $req_path | sed 's!^'^$redir_url^'!!g'}
-	post_redirect https://shubinanddonaldson.sharepoint.com/:f:/r/sites/ShubinDonaldson/Shared%20Documents/Representation/Archive/^$"redir_name
+	if (! ~ $#redir_name 0) {
+		post_redirect $"sharepoint_url^$"redir_name
+	}
 }
-
