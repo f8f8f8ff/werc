@@ -22,17 +22,19 @@ fn perm_redirect { http_redirect $1 '301 Moved Permanantly' }
 fn post_redirect { http_redirect $1 '303 See Other' }
 
 fn x-www-form-urlencoded {
+		dprint x-www-form-urlencoded
         ifs='&
 '       for(pair in `{cat}) {
             ifs='=' { pair=`{echo -n $pair} }
-            n='post_arg_'^`{echo $pair(1)|tr -cd 'a-zA-Z0-9_'}
+            n='post_arg_'^`{echo $pair(1)|nurldecode|tr -cd 'a-zA-Z0-9_'}
             post_args=( $post_args $n )
-            ifs=() { $n=`{echo -n $pair(2)|urldecode|tr -d ''} }
+            ifs=() { $n=`{echo -n $pair(2)|nurldecode|tr -d ''} }
         }
         pair=()
 }
 
 fn multipart-form-data {
+	dprint multipart-form-data
     cdd=`{pwd}
     if(~ $#upload_dir 0)
         upload_dir = /tmp
